@@ -1,4 +1,6 @@
 ﻿using LinenandBird.Models;
+using LinenandBird.DataAccess;
+using LinenandBird.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,36 +16,24 @@ namespace LinenandBird.Controllers
   [ApiController] // an API controller, so it returns Json or xml
   public class HatsController : ControllerBase
   {
-    static List<Hat> _hats = new List<Hat>
-    {
-        new Hat
-        {
-          Color = "Blue",
-          Designer = "Charlie",
-          Style = HatStyle.Openback
-        },
-        new Hat
-        {
-          Color = "Black",
-          Designer = "Nathan",
-          Style = HatStyle.WideBrim
-        },
-        new Hat
-        {
-          Color = "Red",
-          Designer = "Charlie",
-          Style = HatStyle.Normal
-        }
-    };
+    HatRepository _repo;
+    public HatsController()
+      {
+        _repo = new HatRepository();
+      }
 
     [HttpGet]
     public List<Hat> GetAllHats()
     {
-      return _hats;
+      var repo = new HatRepository();
+      return repo.GetAll();
     }
 
     // Get api/hats/styles/1 -> all open backed hats
     [HttpGet("styles/{style}")]
+    //public IEnumerable<Hat> GetHatsByStyle(Hatstyle)
+    //var matches = _hats.Where(hat => hat.Style == style);
+    //return matches;
     public List<Hat> GetHatsByStyle(HatStyle style)
     {
       var matches = _hats.Where(hat => hat.Style == style);
@@ -53,7 +43,11 @@ namespace LinenandBird.Controllers
     [HttpPost]
     public void AddHat (Hat newHat)
     {
-      _hats.Add(newHat);
+      var repo = new HatRepository();
+      repo.Add(newHat);
     }
+
+
+
   }
 }
