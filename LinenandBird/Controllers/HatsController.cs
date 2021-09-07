@@ -16,6 +16,7 @@ namespace LinenandBird.Controllers
   [ApiController] // an API controller, so it returns Json or xml
   public class HatsController : ControllerBase
   {
+    // declared HatRepository fie
     HatRepository _repo;
     public HatsController()
       {
@@ -31,20 +32,21 @@ namespace LinenandBird.Controllers
 
     // Get api/hats/styles/1 -> all open backed hats
     [HttpGet("styles/{style}")]
-    //public IEnumerable<Hat> GetHatsByStyle(Hatstyle)
-    //var matches = _hats.Where(hat => hat.Style == style);
-    //return matches;
-    public List<Hat> GetHatsByStyle(HatStyle style)
+    public IEnumerable<Hat> GetHatsByStyle(HatStyle style)
     {
-      var matches = _hats.Where(hat => hat.Style == style);
-      return matches.ToList();
+      var matches = _repo.GetByStyle(style);
+      return matches;
     }
+    //public List<Hat> GetHatsByStyle(HatStyle style)
+    //{
+      //var matches = _hats.Where(hat => hat.Style == style);
+      //return matches.ToList();
+    //}
 
     [HttpPost]
     public void AddHat (Hat newHat)
     {
-      var repo = new HatRepository();
-      repo.Add(newHat);
+      _repo.Add(newHat);
     }
 
 
