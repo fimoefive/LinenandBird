@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static LinenandBird.Models.Hat;
 
 namespace LinenandBird.DataAccess
 {
@@ -38,7 +39,13 @@ namespace LinenandBird.DataAccess
 
     internal void Add(Hat newHat)
     {
-      return;
+      _hats.Add(newHat);
     }
+
+    internal IEnumerable<Hat> GetByStyle(HatStyle style)
+    {
+       return _hats.Where(hat => hat.Style == style);
+    }
+
   }
 }
