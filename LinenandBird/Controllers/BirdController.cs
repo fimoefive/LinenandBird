@@ -21,14 +21,23 @@ namespace LinenandBird.Controllers
     }
 
     [HttpGet]
-      public IEnumerable<Bird> GetAllBirds()
+      //public IEnumerable<Bird> GetAllBirds()
+       public IActionResult GetAllBirds()
     {
-      return _repo.GetAll();
+      return Ok(_repo.GetAll());
+      //return _repo.GetAll();
     }
 
+    [HttpPost]
     public void AddBird(Bird newBird)
     {
+      if (string.IsNullOrEmpty(newBird.name) || string.IsNullOrEmpty(newBird.Color))
+      {
+        return BadRequest("Name and Color are required fields");
+      }
       _repo.Add(newBird);
+
+      return Created("/api/birds/1", newBird);
     }
 
   }
