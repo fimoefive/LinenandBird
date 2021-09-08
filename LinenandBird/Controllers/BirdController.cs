@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LinenandBird.DataAccess;
+using LinenandBird.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,32 @@ namespace LinenandBird.Controllers
   [ApiController]
   public class BirdController : ControllerBase
   {
+    BirdRepository _repo;
 
+    public BirdController()
+    {
+      _repo = new BirdRepository();
+    }
 
+    [HttpGet]
+      //public IEnumerable<Bird> GetAllBirds()
+       public IActionResult GetAllBirds()
+    {
+      return Ok(_repo.GetAll());
+      //return _repo.GetAll();
+    }
+
+    [HttpPost]
+    public IActionResult AddBird(Bird newBird)
+    {
+      if (string.IsNullOrEmpty(newBird.Name) || string.IsNullOrEmpty(newBird.Color))
+      {
+        return BadRequest("Name and Color are required fields");
+      }
+      _repo.Add(newBird);
+
+      return Created("/api/birds/1", newBird);
+    }
 
   }
 }
