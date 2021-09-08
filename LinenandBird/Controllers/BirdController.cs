@@ -29,9 +29,9 @@ namespace LinenandBird.Controllers
     }
 
     [HttpPost]
-    public void AddBird(Bird newBird)
+    public IActionResult AddBird(Bird newBird)
     {
-      if (string.IsNullOrEmpty(newBird.name) || string.IsNullOrEmpty(newBird.Color))
+      if (string.IsNullOrEmpty(newBird.Name) || string.IsNullOrEmpty(newBird.Color))
       {
         return BadRequest("Name and Color are required fields");
       }
