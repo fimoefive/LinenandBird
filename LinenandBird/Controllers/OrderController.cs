@@ -11,10 +11,20 @@ namespace LinenandBird.Controllers
   [ApiController]
   public class OrderController : ControllerBase
   {
+    public OrderController()
+    {
+      _birdRepository = new BirdRepository();
+      _hatRepository = new HatRepository();
+      _orderRepository = new OrdersRepository();
+    }
 
-    public IActionResult CreateOrder()
+    public IActionResult CreateOrder(CreateOrderCommand command)
     {
 
+
     }
+
+
+
   }
 }
