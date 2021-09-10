@@ -29,6 +29,16 @@ namespace LinenandBird.Controllers
       var hatToOrder = _hatRepository.GetById(command.HatId);
       var birdToOrder = _birdRepository.GetById(command.BirdId);
 
+      if (hatToOrder == null)
+      {
+        return NotFound("There was no matching hat in the database");
+      }
+
+      if (birdToOrder == null)
+      {
+        return NotFound("There was no matching bird in the database");
+      }
+
       var order = new Order
       {
         Bird = birdToOrder,
