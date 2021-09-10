@@ -12,6 +12,7 @@ namespace LinenandBird.DataAccess
     {
       new Bird
       {
+       Id = Guid.NewGuid(),
        Name = "Jimmy",
        Color = "Red",
        Size = "Small",
@@ -22,12 +23,16 @@ namespace LinenandBird.DataAccess
 
     internal IEnumerable<Bird> GetAll()
     {
-    return _birds;
+      return _birds;
     }
 
     internal void Add(Bird newBird)
     {
+      newBird.Id = Guid.NewGuid();
+
       _birds.Add(newBird);
     }
+
+
   }
 }

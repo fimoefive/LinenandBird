@@ -13,18 +13,21 @@ namespace LinenandBird.DataAccess
     {
         new Hat
         {
+          Id = Guid.NewGuid(),
           Color = "Blue",
           Designer = "Charlie",
           Style = HatStyle.Openback
         },
         new Hat
         {
+           Id = Guid.NewGuid(),
           Color = "Black",
           Designer = "Nathan",
           Style = HatStyle.WideBrim
         },
         new Hat
         {
+           Id = Guid.NewGuid(),
           Color = "Red",
           Designer = "Charlie",
           Style = HatStyle.Normal
@@ -37,15 +40,18 @@ namespace LinenandBird.DataAccess
       return _hats;
     }
 
-    internal void Add(Hat newHat)
-    {
-      _hats.Add(newHat);
-    }
-
     internal IEnumerable<Hat> GetByStyle(HatStyle style)
     {
        return _hats.Where(hat => hat.Style == style);
     }
+
+    internal void Add(Hat newHat)
+    {
+      newHat.Id = Guid.NewGuid();
+
+      _hats.Add(newHat);
+    }
+
 
   }
 }

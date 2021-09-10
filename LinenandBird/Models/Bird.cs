@@ -7,6 +7,8 @@ namespace LinenandBird.Models
 {
   public class Bird
   {
+    public Guid Id { get; set; }
+
     public BirdType Type { get; set; }
     public string Color { get; set; }
     public string Size { get; set; }
@@ -16,7 +18,7 @@ namespace LinenandBird.Models
   }
   public enum BirdType
   {
-    Dead, 
+    Dead,
     Linen
   }
 }

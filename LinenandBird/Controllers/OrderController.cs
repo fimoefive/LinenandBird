@@ -11,5 +11,10 @@ namespace LinenandBird.Controllers
   [ApiController]
   public class OrderController : ControllerBase
   {
+
+    public IActionResult CreateOrder()
+    {
+
+    }
   }
 }
