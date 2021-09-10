@@ -33,7 +33,7 @@ namespace LinenandBird.DataAccess
       _birds.Add(newBird);
     }
 
-    internal object GetById(Guid birdId)
+    internal Bird GetById(Guid birdId)
     {
       return _birds.FirstOrDefault(bird => bird.Id == birdId);
     }

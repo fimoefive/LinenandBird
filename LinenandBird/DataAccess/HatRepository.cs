@@ -34,7 +34,7 @@ namespace LinenandBird.DataAccess
         }
     };
 
-    internal object GetById(Guid hatId)
+    internal Hat GetById(Guid hatId)
     {
       return _hats.FirstOrDefault(hat => hat.Id == hatId);
     }
