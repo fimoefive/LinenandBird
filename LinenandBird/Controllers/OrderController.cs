@@ -29,9 +29,17 @@ namespace LinenandBird.Controllers
       var hatToOrder = _hatRepository.GetById(command.HatId);
       var birdToOrder = _birdRepository.GetById(command.BirdId);
 
+      var order = new Order
+      {
+        Bird = birdToOrder,
+        Hat = hatToOrder,
+        Price = command.Price
+      };
+
+      _orderRepository.Add(order);
+
+      return Created($"/api/orders/{order.Id}", order);
     }
-
-
 
   }
 }
