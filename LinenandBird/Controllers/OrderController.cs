@@ -11,6 +11,10 @@ namespace LinenandBird.Controllers
   [ApiController]
   public class OrderController : ControllerBase
   {
+    BirdRepository _birdRepository;
+    HatRepository _hatRepository;
+    OrdersRepository _orderRepository;
+
     public OrderController()
     {
       _birdRepository = new BirdRepository();
