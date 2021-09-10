@@ -26,7 +26,8 @@ namespace LinenandBird.Controllers
 
     public IActionResult CreateOrder(CreateOrderCommand command)
     {
-
+      var hatToOrder = _hatRepository.GetById(command.HatId);
+      var birdToOrder = _birdRepository.GetById(command.BirdId);
 
     }
 
