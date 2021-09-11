@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LinenandBird.Controllers
 {
-  [Route("api/birds")]
+  [Route("api/[controller]")]
   [ApiController]
   public class BirdController : ControllerBase
   {
