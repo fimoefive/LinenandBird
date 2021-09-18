@@ -37,5 +37,14 @@ namespace LinenandBird.DataAccess
     {
       return _birds.FirstOrDefault(bird => bird.Id == birdId);
     }
+
+    //[HttpDelete("{id}")]
+    //public IActionResult DeleteBird(Guid id)
+    //{
+    //  _repo.Remove(id);
+    // return Ok();
+    //}
+
+
   }
 }
