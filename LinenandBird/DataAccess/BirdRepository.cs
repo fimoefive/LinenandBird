@@ -24,7 +24,9 @@ namespace LinenandBird.DataAccess
 
     internal IEnumerable<Bird> GetAll()
     {
-      return _birds;
+      var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+
+      //return _birds;
     }
 
     internal void Add(Bird newBird)
