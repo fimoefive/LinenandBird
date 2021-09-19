@@ -78,7 +78,8 @@ namespace LinenandBird.DataAccess
       var command = connection.CreateCommand();
       command.CommandText = $@"Select * 
                             From Birds
-                            where id = { birdId }";
+                            where id = @id";
+      command.Parameters.AddWithValue("id", birdId);
      
       
       // return _birds.FirstOrDefault(bird => bird.Id == birdId);
