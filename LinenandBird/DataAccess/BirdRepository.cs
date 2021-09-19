@@ -37,10 +37,19 @@ namespace LinenandBird.DataAccess
 
       // WHile Loop
       while(reader.Read())
-      {
+      {// ORM style Mapping
+        // Oridnal 
+        // var bird = new Bird();
+        // bird.Id = reader.GetGuid(0);
+        // Column Name String
+        // bird.Size = reader["Size"].ToString(); 
+        // Direct Cast || explicit casting
+        // bird.Type = (BirdType)reader["type"];
+        // bird.Name = reader["Size"].ToString();
+
         var bird = MapFromReader(reader);
 
-        _birds.Add(bird);
+        birds.Add(bird);
       }
       //return _birds;
     }
