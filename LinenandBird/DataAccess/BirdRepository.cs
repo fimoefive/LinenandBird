@@ -36,6 +36,7 @@ namespace LinenandBird.DataAccess
       var reader = command.ExecuteReader();
       var birds = new List<Bird>();
 
+      // Block of code till bird.Add is translation mapping to SQL
       // WHile Loop
       while(reader.Read())
       {// ORM style Mapping
@@ -54,11 +55,11 @@ namespace LinenandBird.DataAccess
         bird.Name = reader["Size"].ToString();
 
        // var bird = MapFromReader(reader);
-
         birds.Add(bird);
       }
+
       return birds;
-      //return _birds;
+   // return _birds;
     }
 
     internal void Add(Bird newBird)
