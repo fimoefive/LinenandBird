@@ -28,6 +28,7 @@ namespace LinenandBird.Controllers
       //return _repo.GetAll();
     }
 
+    [HttpGet("{id}")]
     public IActionResult GetBirdById(Guid id)
     {
       var bird = _repo.GetById(id);
