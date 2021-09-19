@@ -35,7 +35,13 @@ namespace LinenandBird.DataAccess
 
       var reader = command.ExecuteReader();
 
+      // WHile Loop
+      while(reader.Read())
+      {
+        var bird = MapFromReader(reader);
 
+        _birds.Add(bird);
+      }
       //return _birds;
     }
 
