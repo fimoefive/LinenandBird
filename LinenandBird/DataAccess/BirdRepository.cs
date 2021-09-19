@@ -34,23 +34,25 @@ namespace LinenandBird.DataAccess
                                 From Birds";
 
       var reader = command.ExecuteReader();
+      var birds = new List<Bird>();
 
       // WHile Loop
       while(reader.Read())
       {// ORM style Mapping
         // Oridnal 
-        // var bird = new Bird();
-        // bird.Id = reader.GetGuid(0);
+         var bird = new Bird();
+         bird.Id = reader.GetGuid(0);
         // Column Name String
-        // bird.Size = reader["Size"].ToString(); 
+         bird.Size = reader["Size"].ToString(); 
         // Direct Cast || explicit casting
-        // bird.Type = (BirdType)reader["type"];
-        // bird.Name = reader["Size"].ToString();
+         bird.Type = (BirdType)reader["type"];
+         bird.Name = reader["Size"].ToString();
 
-        var bird = MapFromReader(reader);
+       // var bird = MapFromReader(reader);
 
         birds.Add(bird);
       }
+      return birds;
       //return _birds;
     }
 
