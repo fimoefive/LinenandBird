@@ -25,7 +25,7 @@ namespace LinenandBird.DataAccess
 
     internal IEnumerable<Bird> GetAll()
     {
-      var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+     using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
 
       connection.Open();
 
@@ -46,6 +46,8 @@ namespace LinenandBird.DataAccess
          bird.Size = reader["Size"].ToString(); 
         // Direct Cast || explicit casting
          bird.Type = (BirdType)reader["type"];
+       //Samething but with and Enum.TryParse
+      // Enum.TryParse<BirdType>(reader["Type"].ToString(), out var birdType); 
          bird.Name = reader["Size"].ToString();
 
        // var bird = MapFromReader(reader);
