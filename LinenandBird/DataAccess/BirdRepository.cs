@@ -80,8 +80,23 @@ namespace LinenandBird.DataAccess
                             From Birds
                             where id = @id";
       command.Parameters.AddWithValue("id", birdId);
-     
-      
+
+      var reader = command.ExecuteReader();
+
+      if (reader.Read())
+      {
+        var bird = new Bird();
+        bird.Id = reader.GetGuid(0);
+        // Column Name String
+        bird.Size = reader["Size"].ToString();
+        // Direct Cast || Explicit Casting
+        bird.Type = (BirdType)reader["type"];
+        bird.Color = reader["Color"].ToString();
+        bird.Name = reader["Size"].ToString();
+
+        return bird;
+      }
+
       // return _birds.FirstOrDefault(bird => bird.Id == birdId);
     }
 
