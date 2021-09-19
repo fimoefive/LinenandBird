@@ -28,6 +28,16 @@ namespace LinenandBird.Controllers
       //return _repo.GetAll();
     }
 
+    public IActionResult GetBirdById(Guid id)
+    {
+      var bird = _repo.GetById(id);
+      if (bird is null)
+      {
+        return NotFound($"No bird with the id {id} was found.");
+      }
+      return Ok(bird);
+    }
+
     [HttpPost]
     public IActionResult AddBird(Bird newBird)
     {
