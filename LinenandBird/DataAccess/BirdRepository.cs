@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+//using Dapper;
 
 namespace LinenandBird.DataAccess
 {
@@ -25,6 +26,15 @@ namespace LinenandBird.DataAccess
     internal IEnumerable<Bird> GetAll()
     {
       var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+
+      connection.Open();
+
+      var command = connection.CreateCommand();
+          command.CommandText = @"Select * 
+                                From Birds";
+
+      var reader = command.ExecuteReader();
+
 
       //return _birds;
     }
