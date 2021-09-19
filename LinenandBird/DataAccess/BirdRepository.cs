@@ -44,11 +44,14 @@ namespace LinenandBird.DataAccess
          bird.Id = reader.GetGuid(0);
         // Column Name String
          bird.Size = reader["Size"].ToString(); 
-        // Direct Cast || explicit casting
+        // Direct Cast || Explicit Casting
          bird.Type = (BirdType)reader["type"];
-       //Samething but with and Enum.TryParse
-      // Enum.TryParse<BirdType>(reader["Type"].ToString(), out var birdType); 
-         bird.Name = reader["Size"].ToString();
+        //Same result as Explicit Casting but with and Enum.TryParse
+        //Enum.TryParse<BirdType>(reader["Type"].ToString(), out var birdType); 
+        //bird.Type = birdType;
+
+        bird.Color = reader["Color"].ToString();
+        bird.Name = reader["Size"].ToString();
 
        // var bird = MapFromReader(reader);
 
