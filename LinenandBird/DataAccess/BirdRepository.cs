@@ -71,7 +71,17 @@ namespace LinenandBird.DataAccess
 
     internal Bird GetById(Guid birdId)
     {
-      return _birds.FirstOrDefault(bird => bird.Id == birdId);
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+
+      connection.Open();
+
+      var command = connection.CreateCommand();
+      command.CommandText = $@"Select * 
+                            From Birds
+                            where id = { birdId }";
+     
+      
+      // return _birds.FirstOrDefault(bird => bird.Id == birdId);
     }
 
     //[HttpDelete("{id}")]
