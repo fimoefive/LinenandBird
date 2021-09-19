@@ -96,7 +96,7 @@ namespace LinenandBird.DataAccess
 
         return bird;
       }
-
+      return default; // return null;
       // return _birds.FirstOrDefault(bird => bird.Id == birdId);
     }
 
