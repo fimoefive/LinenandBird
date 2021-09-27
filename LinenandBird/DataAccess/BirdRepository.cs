@@ -58,7 +58,17 @@ namespace LinenandBird.DataAccess
 
     internal void Remove(Guid id)
     {
-      throw new NotImplementedException();
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      connection.Open();
+
+      var cmd = connection.CreateCommand();
+      cmd.CommandText = @"Delete
+                        From Birds
+                        Where Id = @id";
+
+      cmd.Parameters.AddWithValue("id", id);
+
+      cmd.ExecuteNonQuery();
     }
 
     internal Bird GetById(Guid birdId)
