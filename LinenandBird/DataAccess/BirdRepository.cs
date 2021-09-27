@@ -9,19 +9,6 @@ namespace LinenandBird.DataAccess
 {
   public class BirdRepository
   {
-    static List<Bird> _birds = new List<Bird>
-    {
-      new Bird
-      {
-       Id = Guid.NewGuid(),
-       Name = "Jimmy",
-       Color = "Red",
-       Size = "Small",
-       Type = BirdType.Dead,
-       Accessories = new List<string> {"Beanie", "Gold Wing Tips"}
-      }
-    };
-
 
     internal IEnumerable<Bird> GetAll()
     {
@@ -69,9 +56,9 @@ namespace LinenandBird.DataAccess
 
     internal void Add(Bird newBird)
     {
-      newBird.Id = Guid.NewGuid();
+      //newBird.Id = Guid.NewGuid();
 
-      _birds.Add(newBird);
+      //_birds.Add(newBird);
     }
 
     internal Bird GetById(Guid birdId)
