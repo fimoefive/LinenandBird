@@ -56,6 +56,11 @@ namespace LinenandBird.DataAccess
       // return _birds;
     }
 
+    internal void Remove(Guid id)
+    {
+      throw new NotImplementedException();
+    }
+
     internal Bird GetById(Guid birdId)
     {
       // Connections are like the tunnel between our app and the database

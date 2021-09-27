@@ -52,5 +52,13 @@ namespace LinenandBird.Controllers
       return Created("/api/birds/1", newBird);
     }
 
+    [HttpDelete("{id}")]
+    public IActionResult DeleteBird(Guid id)
+    {
+      _repo.Remove(id);
+
+      return Ok();
+    }
+
   }
 }
