@@ -59,6 +59,18 @@ namespace LinenandBird.DataAccess
     internal void Add(Bird newBird)
     {
       using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      connection.Open();
+
+      var cmd = connection.CreateCommand();
+      cmd.CommandText = @"insert into birds(Type,Color,Size,Name)
+                            values (@Type,@Color,@Size,@Name)";
+
+      cmd.Parameters.AddWithValue("Type", newBird.Type);
+      cmd.Parameters.AddWithValue("Color", newBird.Color);
+      cmd.Parameters.AddWithValue("Size", newBird.Size);
+      cmd.Parameters.AddWithValue("Name", newBird.Name);
+
+
       //newBird.Id = Guid.NewGuid();
 
       //_birds.Add(newBird);
