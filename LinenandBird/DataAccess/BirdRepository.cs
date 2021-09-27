@@ -70,10 +70,15 @@ namespace LinenandBird.DataAccess
       cmd.Parameters.AddWithValue("Size", newBird.Size);
       cmd.Parameters.AddWithValue("Name", newBird.Name);
 
+      // Execute the query, but don't care about the results, just number of rows
+      var numberOfRowsAffected = cmd.ExecuteNonQuery();
 
-      //newBird.Id = Guid.NewGuid();
+      // Execute the query and only get the id of the new row
+      var newId = (Guid)cmd.ExecuteScalar();
 
-      //_birds.Add(newBird);
+      newBird.Id = newId;
+
+
     }
 
     internal Bird GetById(Guid birdId)
