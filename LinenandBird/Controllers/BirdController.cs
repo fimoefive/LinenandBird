@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LinenandBird.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("api/birds")]
   [ApiController]
   public class BirdController : ControllerBase
   {
@@ -21,11 +21,23 @@ namespace LinenandBird.Controllers
     }
 
     [HttpGet]
-      //public IEnumerable<Bird> GetAllBirds()
-       public IActionResult GetAllBirds()
+    //public IEnumerable<Bird> GetAllBirds()
+    public IActionResult GetAllBirds()
     {
       return Ok(_repo.GetAll());
       //return _repo.GetAll();
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult GetBirdById(Guid id)
+    {
+      var bird = _repo.GetById(id);
+
+      if (bird is null)
+      {
+        return NotFound($"No bird with the id {id} was found.");
+      }
+      return Ok(bird);
     }
 
     [HttpPost]
