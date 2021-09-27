@@ -10,6 +10,8 @@ namespace LinenandBird.DataAccess
   public class BirdRepository
   {
 
+    const string _connectionString = "Server=localhost;Database=LinenandBird;Trusted_Connection=True;";
+
     internal IEnumerable<Bird> GetAll()
     {
       // Connections are like the tunnel between our app and the database
@@ -56,6 +58,7 @@ namespace LinenandBird.DataAccess
 
     internal void Add(Bird newBird)
     {
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
       //newBird.Id = Guid.NewGuid();
 
       //_birds.Add(newBird);
