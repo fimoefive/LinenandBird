@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-//using Dapper;
 
 namespace LinenandBird.DataAccess
 {
@@ -23,43 +22,44 @@ namespace LinenandBird.DataAccess
       }
     };
 
+
     internal IEnumerable<Bird> GetAll()
     {
-     using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
 
       connection.Open();
 
       var command = connection.CreateCommand();
-          command.CommandText = @"Select * 
+      command.CommandText = @"Select * 
                                 From Birds";
 
       var reader = command.ExecuteReader();
+
       var birds = new List<Bird>();
 
       // Block of code till bird.Add is translation mapping to SQL
       // WHile Loop
-      while(reader.Read())
+      while (reader.Read())
       {// ORM style Mapping
-        // Oridnal 
-         var bird = new Bird();
-         bird.Id = reader.GetGuid(0);
+       // Oridnal 
+        var bird = new Bird();
+        bird.Id = reader.GetGuid(0);
         // Column Name String
-         bird.Size = reader["Size"].ToString(); 
+        bird.Size = reader["Size"].ToString();
         // Direct Cast || Explicit Casting
-         bird.Type = (BirdType)reader["type"];
+        bird.Type = (BirdType)reader["type"];
         //Same result as Explicit Casting but with and Enum.TryParse
         //Enum.TryParse<BirdType>(reader["Type"].ToString(), out var birdType); 
         //bird.Type = birdType;
-
         bird.Color = reader["Color"].ToString();
-        bird.Name = reader["Size"].ToString();
+        bird.Name = reader["Name"].ToString();
 
-       // var bird = MapFromReader(reader);
+        // var bird = MapFromReader(reader);
         birds.Add(bird);
       }
 
       return birds;
-   // return _birds;
+      // return _birds;
     }
 
     internal void Add(Bird newBird)
@@ -76,9 +76,10 @@ namespace LinenandBird.DataAccess
       connection.Open();
 
       var command = connection.CreateCommand();
-      command.CommandText = $@"Select * 
+      command.CommandText = @"Select * 
                             From Birds
                             where id = @id";
+
       command.Parameters.AddWithValue("id", birdId);
 
       var reader = command.ExecuteReader();
@@ -90,22 +91,15 @@ namespace LinenandBird.DataAccess
         // Column Name String
         bird.Size = reader["Size"].ToString();
         // Direct Cast || Explicit Casting
-        bird.Type = (BirdType)reader["type"];
+        bird.Type = (BirdType)reader["Type"];
         bird.Color = reader["Color"].ToString();
-        bird.Name = reader["Size"].ToString();
+        bird.Name = reader["Name"].ToString();
 
         return bird;
       }
       return default; // return null;
       // return _birds.FirstOrDefault(bird => bird.Id == birdId);
     }
-
-    //[HttpDelete("{id}")]
-    //public IActionResult DeleteBird(Guid id)
-    //{
-    //  _repo.Remove(id);
-    // return Ok();
-    //}
 
 
   }
