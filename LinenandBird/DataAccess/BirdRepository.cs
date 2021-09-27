@@ -25,20 +25,24 @@ namespace LinenandBird.DataAccess
 
     internal IEnumerable<Bird> GetAll()
     {
+      // Connections are like the tunnel between our app and the database
       using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
-
+      // Connections aren't open by default, we've gotta do that ourself
       connection.Open();
 
+      // This is what tells sql what we want to do
       var command = connection.CreateCommand();
       command.CommandText = @"Select * 
                                 From Birds";
 
+      // Execute reader is for when we care about getting all the results of our query
       var reader = command.ExecuteReader();
 
       var birds = new List<Bird>();
 
       // Block of code till bird.Add is translation mapping to SQL
       // WHile Loop
+      // Data readers are weird, only get one row from the results at a time
       while (reader.Read())
       {// ORM style Mapping
        // Oridnal 
@@ -55,6 +59,7 @@ namespace LinenandBird.DataAccess
         bird.Name = reader["Name"].ToString();
 
         // var bird = MapFromReader(reader);
+        // Each bird goes in the list to return later
         birds.Add(bird);
       }
 
@@ -71,17 +76,21 @@ namespace LinenandBird.DataAccess
 
     internal Bird GetById(Guid birdId)
     {
+      // Connections are like the tunnel between our app and the database
       using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
-
+      // Connections aren't open by default, we've gotta do that ourself
       connection.Open();
 
+      // This is what tells sql what we want to do
       var command = connection.CreateCommand();
       command.CommandText = @"Select * 
                             From Birds
                             where id = @id";
 
+      // Parameterization prevents sql injection (little bobby tables)
       command.Parameters.AddWithValue("id", birdId);
 
+      // Execute reader is for when we care about getting all the results of our query
       var reader = command.ExecuteReader();
 
       if (reader.Read())
