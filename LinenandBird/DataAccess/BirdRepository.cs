@@ -56,31 +56,6 @@ namespace LinenandBird.DataAccess
       // return _birds;
     }
 
-    internal void Add(Bird newBird)
-    {
-      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
-      connection.Open();
-
-      var cmd = connection.CreateCommand();
-      cmd.CommandText = @"insert into birds(Type,Color,Size,Name)
-                            values (@Type,@Color,@Size,@Name)";
-
-      cmd.Parameters.AddWithValue("Type", newBird.Type);
-      cmd.Parameters.AddWithValue("Color", newBird.Color);
-      cmd.Parameters.AddWithValue("Size", newBird.Size);
-      cmd.Parameters.AddWithValue("Name", newBird.Name);
-
-      // Execute the query, but don't care about the results, just number of rows
-      var numberOfRowsAffected = cmd.ExecuteNonQuery();
-
-      // Execute the query and only get the id of the new row
-      var newId = (Guid)cmd.ExecuteScalar();
-
-      newBird.Id = newId;
-
-
-    }
-
     internal Bird GetById(Guid birdId)
     {
       // Connections are like the tunnel between our app and the database
@@ -115,6 +90,30 @@ namespace LinenandBird.DataAccess
       }
       return default; // return null;
       // return _birds.FirstOrDefault(bird => bird.Id == birdId);
+    }
+
+    internal void Add(Bird newBird)
+    {
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      connection.Open();
+
+      var cmd = connection.CreateCommand();
+      cmd.CommandText = @"insert into birds(Type,Color,Size,Name)
+                            values (@Type,@Color,@Size,@Name)";
+
+      cmd.Parameters.AddWithValue("Type", newBird.Type);
+      cmd.Parameters.AddWithValue("Color", newBird.Color);
+      cmd.Parameters.AddWithValue("Size", newBird.Size);
+      cmd.Parameters.AddWithValue("Name", newBird.Name);
+
+      // Execute the query, but don't care about the results, just number of rows
+      var numberOfRowsAffected = cmd.ExecuteNonQuery();
+
+      // Execute the query and only get the id of the new row
+      var newId = (Guid)cmd.ExecuteScalar();
+
+      newBird.Id = newId;
+
     }
 
 
