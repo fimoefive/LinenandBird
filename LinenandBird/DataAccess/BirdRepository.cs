@@ -33,27 +33,15 @@ namespace LinenandBird.DataAccess
       // WHile Loop
       // Data readers are weird, only get one row from the results at a time
       while (reader.Read())
-      {// ORM style Mapping
-       // Oridnal 
-        var bird = new Bird();
-        bird.Id = reader.GetGuid(0);
-        // Column Name String
-        bird.Size = reader["Size"].ToString();
-        // Direct Cast || Explicit Casting
-        bird.Type = (BirdType)reader["type"];
-        //Same result as Explicit Casting but with and Enum.TryParse
-        //Enum.TryParse<BirdType>(reader["Type"].ToString(), out var birdType); 
-        //bird.Type = birdType;
-        bird.Color = reader["Color"].ToString();
-        bird.Name = reader["Name"].ToString();
+      {
 
-        // var bird = MapFromReader(reader);
+        var bird = MapFromReader(reader);
+
         // Each bird goes in the list to return later
         birds.Add(bird);
       }
 
       return birds;
-      // return _birds;
     }
 
     internal Bird GetById(Guid birdId)
@@ -127,8 +115,8 @@ namespace LinenandBird.DataAccess
                               Name = @name,
                               Type = @type,
                               Size = @size
-
-";
+                          output inserted.*
+                          WHere id = @id";
 
       cmd.Parameters.AddWithValue("Type", bird.Type);
       cmd.Parameters.AddWithValue("Color", bird.Color);
