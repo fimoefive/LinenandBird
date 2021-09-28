@@ -150,7 +150,7 @@ namespace LinenandBird.DataAccess
         return updateBird;
       }
 
-
+      return null; 
     }
 
     internal void Remove(Guid id)
