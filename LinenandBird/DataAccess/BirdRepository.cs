@@ -34,7 +34,6 @@ namespace LinenandBird.DataAccess
       // Data readers are weird, only get one row from the results at a time
       while (reader.Read())
       {
-
         var bird = MapFromReader(reader);
 
         // Each bird goes in the list to return later
@@ -111,7 +110,7 @@ namespace LinenandBird.DataAccess
                               Size = @size
                           output inserted.*
                           Where id = @id";
-      
+
       // Bird comes from the Http request in the controller
       cmd.Parameters.AddWithValue("Type", bird.Type);
       cmd.Parameters.AddWithValue("Color", bird.Color);
@@ -127,7 +126,7 @@ namespace LinenandBird.DataAccess
         return updatedBird;
       }
 
-      return null; 
+      return null;
     }
 
     internal void Remove(Guid id)
@@ -157,8 +156,6 @@ namespace LinenandBird.DataAccess
 
       return bird;
     }
-
-
 
   }
 }
