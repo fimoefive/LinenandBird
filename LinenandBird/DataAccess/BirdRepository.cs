@@ -118,7 +118,29 @@ namespace LinenandBird.DataAccess
 
     internal object Update(Guid id, Bird bird)
     {
-      throw new NotImplementedException();
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      connection.Open();
+
+      var cmd = connection.CreateCommand();
+      cmd.CommandText = @"update Birds
+                          Set Color = @color,
+                              Name = @name,
+                              Type = @type,
+                              Size = @size
+
+";
+
+      cmd.Parameters.AddWithValue("Type", bird.Type);
+      cmd.Parameters.AddWithValue("Color", bird.Color);
+      cmd.Parameters.AddWithValue("Size", bird.Size);
+      cmd.Parameters.AddWithValue("Name", bird.Name);
+      cmd.Parameters.AddWithValue("id", id);
+
+      var reader = cmd.ExecuteReader();
+
+      
+
+
     }
 
     internal void Remove(Guid id)
