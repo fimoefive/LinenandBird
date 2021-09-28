@@ -52,12 +52,29 @@ namespace LinenandBird.Controllers
       return Created("/api/birds/1", newBird);
     }
 
+    // 
     [HttpDelete("{id}")]
     public IActionResult DeleteBird(Guid id)
     {
       _repo.Remove(id);
 
       return Ok();
+    }
+
+    // 
+    [HttpPut("{id}")]
+    public IActionResult UpdateBird(Guid id, Bird bird)
+    {
+      var birdToUpdate = _repo.GetById(id);
+
+      if (birdToUpdate is null)
+      {
+        return NotFound($"");
+      }
+
+      var updateBird = _repo.Update(id, bird);
+      return Ok(updateBird);
+
     }
 
   }
