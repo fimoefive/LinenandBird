@@ -9,19 +9,8 @@ namespace LinenandBird.DataAccess
 {
   public class BirdRepository
   {
-    static List<Bird> _birds = new List<Bird>
-    {
-      new Bird
-      {
-       Id = Guid.NewGuid(),
-       Name = "Jimmy",
-       Color = "Red",
-       Size = "Small",
-       Type = BirdType.Dead,
-       Accessories = new List<string> {"Beanie", "Gold Wing Tips"}
-      }
-    };
 
+    const string _connectionString = "Server=localhost;Database=LinenandBird;Trusted_Connection=True;";
 
     internal IEnumerable<Bird> GetAll()
     {
@@ -44,34 +33,14 @@ namespace LinenandBird.DataAccess
       // WHile Loop
       // Data readers are weird, only get one row from the results at a time
       while (reader.Read())
-      {// ORM style Mapping
-       // Oridnal 
-        var bird = new Bird();
-        bird.Id = reader.GetGuid(0);
-        // Column Name String
-        bird.Size = reader["Size"].ToString();
-        // Direct Cast || Explicit Casting
-        bird.Type = (BirdType)reader["type"];
-        //Same result as Explicit Casting but with and Enum.TryParse
-        //Enum.TryParse<BirdType>(reader["Type"].ToString(), out var birdType); 
-        //bird.Type = birdType;
-        bird.Color = reader["Color"].ToString();
-        bird.Name = reader["Name"].ToString();
+      {
+        var bird = MapFromReader(reader);
 
-        // var bird = MapFromReader(reader);
         // Each bird goes in the list to return later
         birds.Add(bird);
       }
 
       return birds;
-      // return _birds;
-    }
-
-    internal void Add(Bird newBird)
-    {
-      newBird.Id = Guid.NewGuid();
-
-      _birds.Add(newBird);
     }
 
     internal Bird GetById(Guid birdId)
@@ -95,21 +64,98 @@ namespace LinenandBird.DataAccess
 
       if (reader.Read())
       {
-        var bird = new Bird();
-        bird.Id = reader.GetGuid(0);
-        // Column Name String
-        bird.Size = reader["Size"].ToString();
-        // Direct Cast || Explicit Casting
-        bird.Type = (BirdType)reader["Type"];
-        bird.Color = reader["Color"].ToString();
-        bird.Name = reader["Name"].ToString();
-
-        return bird;
+        return MapFromReader(reader);
       }
+
       return default; // return null;
+
       // return _birds.FirstOrDefault(bird => bird.Id == birdId);
     }
 
+    internal void Add(Bird newBird)
+    {
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      connection.Open();
+
+      var cmd = connection.CreateCommand();
+      cmd.CommandText = @"insert into birds(Type,Color,Size,Name)
+                          output inserted.Id
+                          values (@Type,@Color,@Size,@Name)";
+
+      cmd.Parameters.AddWithValue("Type", newBird.Type);
+      cmd.Parameters.AddWithValue("Color", newBird.Color);
+      cmd.Parameters.AddWithValue("Size", newBird.Size);
+      cmd.Parameters.AddWithValue("Name", newBird.Name);
+
+      // Execute the query, but don't care about the results, just number of rows
+      var numberOfRowsAffected = cmd.ExecuteNonQuery();
+
+      // Execute the query and only get the id of the new row
+      var newId = (Guid)cmd.ExecuteScalar();
+
+      newBird.Id = newId;
+
+    }
+
+    internal object Update(Guid id, Bird bird)
+    {
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      connection.Open();
+
+      var cmd = connection.CreateCommand();
+      cmd.CommandText = @"update Birds
+                          Set Color = @color,
+                              Name = @name,
+                              Type = @type,
+                              Size = @size
+                          output inserted.*
+                          Where id = @id";
+
+      // Bird comes from the Http request in the controller
+      cmd.Parameters.AddWithValue("Type", bird.Type);
+      cmd.Parameters.AddWithValue("Color", bird.Color);
+      cmd.Parameters.AddWithValue("Size", bird.Size);
+      cmd.Parameters.AddWithValue("Name", bird.Name);
+      cmd.Parameters.AddWithValue("id", id);
+
+      var reader = cmd.ExecuteReader();
+
+      if (reader.Read())
+      {
+        var updatedBird = MapFromReader(reader); // uses the MapFromReader(SqlDataReader) instead
+        return updatedBird;
+      }
+
+      return null;
+    }
+
+    internal void Remove(Guid id)
+    {
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      connection.Open();
+
+      var cmd = connection.CreateCommand();
+      cmd.CommandText = @"Delete
+                        From Birds
+                        Where Id = @id";
+
+      cmd.Parameters.AddWithValue("id", id);
+
+      cmd.ExecuteNonQuery();
+    }
+
+
+    Bird MapFromReader(SqlDataReader reader)
+    {
+      var bird = new Bird();
+      bird.Id = reader.GetGuid(0);
+      bird.Size = reader["Size"].ToString();
+      bird.Type = (BirdType)reader["Type"];
+      bird.Color = reader["Color"].ToString();
+      bird.Name = reader["Name"].ToString();
+
+      return bird;
+    }
 
   }
 }
