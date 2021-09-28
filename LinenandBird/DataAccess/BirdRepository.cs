@@ -56,21 +56,6 @@ namespace LinenandBird.DataAccess
       // return _birds;
     }
 
-    internal void Remove(Guid id)
-    {
-      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
-      connection.Open();
-
-      var cmd = connection.CreateCommand();
-      cmd.CommandText = @"Delete
-                        From Birds
-                        Where Id = @id";
-
-      cmd.Parameters.AddWithValue("id", id);
-
-      cmd.ExecuteNonQuery();
-    }
-
     internal Bird GetById(Guid birdId)
     {
       // Connections are like the tunnel between our app and the database
@@ -130,6 +115,27 @@ namespace LinenandBird.DataAccess
       newBird.Id = newId;
 
     }
+
+    internal object Update(Guid id, Bird bird)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal void Remove(Guid id)
+    {
+      using var connection = new SqlConnection("Server=localhost;Database=LinenandBird;Trusted_Connection=True;");
+      connection.Open();
+
+      var cmd = connection.CreateCommand();
+      cmd.CommandText = @"Delete
+                        From Birds
+                        Where Id = @id";
+
+      cmd.Parameters.AddWithValue("id", id);
+
+      cmd.ExecuteNonQuery();
+    }
+
 
 
   }
