@@ -169,6 +169,19 @@ namespace LinenandBird.DataAccess
     }
 
 
+    Bird MapFromReader(SqlDataReader reader)
+    {
+      var bird = new Bird();
+      bird.Id = reader.GetGuid(0);
+      bird.Size = reader["Size"].ToString();
+      bird.Type = (BirdType)reader["Type"];
+      bird.Color = reader["Color"].ToString();
+      bird.Name = reader["Name"].ToString();
+
+      return bird;
+    }
+
+
 
   }
 }
