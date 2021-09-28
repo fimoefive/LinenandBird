@@ -65,18 +65,11 @@ namespace LinenandBird.DataAccess
 
       if (reader.Read())
       {
-        var bird = new Bird();
-        bird.Id = reader.GetGuid(0);
-        // Column Name String
-        bird.Size = reader["Size"].ToString();
-        // Direct Cast || Explicit Casting
-        bird.Type = (BirdType)reader["Type"];
-        bird.Color = reader["Color"].ToString();
-        bird.Name = reader["Name"].ToString();
-
-        return bird;
+        return MapFromReader(reader);
       }
+
       return default; // return null;
+
       // return _birds.FirstOrDefault(bird => bird.Id == birdId);
     }
 
@@ -87,7 +80,8 @@ namespace LinenandBird.DataAccess
 
       var cmd = connection.CreateCommand();
       cmd.CommandText = @"insert into birds(Type,Color,Size,Name)
-                            values (@Type,@Color,@Size,@Name)";
+                          output inserted.Id
+                          values (@Type,@Color,@Size,@Name)";
 
       cmd.Parameters.AddWithValue("Type", newBird.Type);
       cmd.Parameters.AddWithValue("Color", newBird.Color);
@@ -116,8 +110,9 @@ namespace LinenandBird.DataAccess
                               Type = @type,
                               Size = @size
                           output inserted.*
-                          WHere id = @id";
-
+                          Where id = @id";
+      
+      // Bird comes from the Http request in the controller
       cmd.Parameters.AddWithValue("Type", bird.Type);
       cmd.Parameters.AddWithValue("Color", bird.Color);
       cmd.Parameters.AddWithValue("Size", bird.Size);
@@ -128,14 +123,8 @@ namespace LinenandBird.DataAccess
 
       if (reader.Read())
       {
-        var updateBird = new Bird();
-        updateBird.Id = reader.GetGuid(0);
-        updateBird.Size = reader.["Size"].ToString();
-        updateBird.Type = (BirdType)reader.["Type"];
-        updateBird.Color = reader.["Color"].ToString();
-        updateBird.Name = reader.["Name"].ToString();
-
-        return updateBird;
+        var updatedBird = MapFromReader(reader); // uses the MapFromReader(SqlDataReader) instead
+        return updatedBird;
       }
 
       return null; 
