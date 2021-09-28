@@ -138,7 +138,17 @@ namespace LinenandBird.DataAccess
 
       var reader = cmd.ExecuteReader();
 
-      
+      if (reader.Read())
+      {
+        var updateBird = new Bird();
+        updateBird.Id = reader.GetGuid(0);
+        updateBird.Size = reader.["Size"].ToString();
+        updateBird.Type = (BirdType)reader.["Type"];
+        updateBird.Color = reader.["Color"].ToString();
+        updateBird.Name = reader.["Name"].ToString();
+
+        return updateBird;
+      }
 
 
     }
